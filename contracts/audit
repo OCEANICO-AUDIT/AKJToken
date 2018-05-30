@@ -1,0 +1,50 @@
+> function addManyToWhitelist(address[] input) public onlyOwner returns(bool) {
+>   for (uint i=0; i < input.length; i++) {
+>     if (whitelist[input[i]] == false && input[i] != msg.sender) {
+>       whitelist[input[i]] = true;
+>       emit AddedToWhitelist(msg.sender, input[i]);
+>     }
+>   }
+>   return true;
+> }
+Заменить тело цикла на addToWhitelist(input[i])
+
+> function removeManyFromWhitelist(address[] input) public onlyOwner returns(bool) {
+>   for (uint i=0; i < input.length; i++) {
+>     if (whitelist[input[i]] == true && input[i] != msg.sender){
+>       whitelist[input[i]] = false;
+>       emit RemovedFromWhitelist(msg.sender, input[i]);
+>     }
+>   }
+>   return true;
+> }
+Заменить тело цикла на removeFromWhitelist(input[i])
+
+> function removeFromWhitelist(address input) public onlyOwner returns(bool) {
+>   require(whitelist[input] == true);
+>   ...
+> }
+Избыточная проверка ' == true' для типа bool
+
+> function transfer(address _to, uint256 _value) public returns (bool) {
+>   ...
+>   require(whitelist[msg.sender] == true, "Sender must be whitelisted to transfer AKJ Tokens.");
+>   require(whitelist[_to] == true, "Receiver must be whitelisted to receive AKJ Tokens.");
+>   ...
+> }
+Избыточная проверка ' == true' для типа bool
+
+> function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
+>   ...
+>   require(whitelist[_from] == true, "Address must be whitelisted to transact.");
+>   require(whitelist[_to] == true, "Address must be whitelisted to transact.");
+>   ...
+> }
+Избыточная проверка ' == true' для типа bool
+
+> function approve(address _spender, uint256 _value) public returns (bool) {
+>   require(whitelist[msg.sender] == true, "Address must be whitelisted to approve transactions.");
+>   require(whitelist[_spender] == true, "Address must be whitelisted to transact.");
+>   ...
+> }
+Избыточная проверка ' == true' для типа bool
